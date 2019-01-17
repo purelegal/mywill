@@ -1,0 +1,8 @@
+node_modules/
+public/dist/
+.env.test
+.env.development
+*.swp
+*.swo
+*.test.js.snap
+server/logs/*
