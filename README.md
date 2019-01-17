@@ -1,104 +1,44 @@
-# Welcome to My Will by Pure Life & Legal
-This is based on a boilerplate designed to deploy on Heroku, you should tweak it if that is not your purpose. <br>
-(Base on https://github.com/andrewjmead/react-course-2-boilerplate) <br>
-More information on https://medium.com/@tabsteveyang/mern-authentication-with-jwt-43e29f278317
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Getting start:
-1. Set up the mongoDB server and run it.
-2. Create your own .env.development file in the root directory of your project, with these value sets.
-```
-TOKEN_SALT=<the random salt value>
-DBHOST=mongodb://<the URI link to the NoSQL database>/<db-name>     (e.g. mongodb://localhost:27017/Testapp)
-```
-3. Install the dependency:
-```
-$ yarn install
-```
-4. Create a test admin user with account 'testadmin@mail.com' and password 'mypassword' by using the script(the script will be deleted automatically after running successfully).
-```
-$cd <path to the app root directory>
-$node createTestUser.js
-```
-5. Run the command to build and start the server:
-   You can also change node to nodemon instead(if nodemon is installed globally)
-```
-//for development build
-$ yarn build:dev && node server/server.js
-```
-```
-//for production build
-$ yarn build:prod && node server/server.js
-```
-6. Open a browser and visit the website, login as the user that you just created.
+## Available Scripts
 
-## Protection of the routes:
-### Front-End:
-import the src/routers/AuthChecker component and place it in the render method in the page component which needs to be protected. <br>
-#### AuthCheck component accepts 3 attributes:
-* history(Object): The history object for redirecting users.<br>
-* isPublic(Boolean): If the page should not be accessible when the user is not login then it should be false. It can also be true if the page should not be shown while the user has logged in, such as the LoginPage.js.<br>
-* accessRequire(String)(Optional): The privilege that a user should have to access the page. Can send more than one requirement by separating them by a comma(,). <br> 
-<br>
-For example: 
+In the project directory, you can run:
 
-``` javascript
-// src/components/DashboardPage.js
+### `npm start`
 
-import React from 'react';
-import Navbar from './Navbar';
-import LogoutBtn from './utils/LogoutBtn';
-import AuthChecker from '../routers/AuthChecker';
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-const DashboardPage = (props) => ( 
-    <div className="container-fluid">
-        <AuthChecker history={props.history} isPublic={false}/>
-        <Navbar />
-        <LogoutBtn />
-        <h1>Dashboard page content</h1>
-    </div>
-);
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
 
-export default DashboardPage;
-```
+### `npm test`
 
-### Back-End:
-Apply the middleware in a route and run the helper function in the begening of the callback function can protect a route. <br>
-<br>
-For example:
+Launches the test runner in the interactive watch mode.<br>
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-``` javascript
-// server/server.js
-// tokenChecker is the middleware for checking the tokens.
-// priviligeChecker is the helper function for checking the priviliges.
+### `npm run build`
 
-app.use('/admin/create_user', tokenChecker, (req, res) => {
-    //check privilige:
-    const allowAccess = priviligeChecker(req.userInfo.access, ['isAdmin']);
-    if(!allowAccess){
-        res.status(403).send('invalid');
-        return;  //exit the function to make sure the user without privileges can't create a new user.
-    }
-    const data = req.body;
-    const user = new User(data);
-    user.save().then((doc) => {
-        res.send('success');
-    }).catch((e) => {
-        writeLog(e, {file: 'server.js:94'});
-        res.send('invalid');
-    });
-});
-```
+Builds the app for production to the `build` folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Utils component:
-There is a utils component src/components/utils/LogoutBtn.js file, it can be placed in anywhere. The button wraps the logout feature in it and will only be shown in the view when the user is logged in.
+The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!
 
-## Unit testing
-The unit testing for frontEnd and backEnd are separated.
-```
-//for testing front-end (using Jest and Enzyme)
-$ yarn test:frontend
-```
-```
-//for testing back-end (using Mocha)
-$ yarn test:backend
-```
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
